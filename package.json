@@ -2,6 +2,11 @@
   "name": "nextjs-bookmarks-dashboard",
   "version": "0.1.0",
   "private": true,
+  "description": "Server-rendered reading list built with Next.js, backed by a Django Ninja API.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,7 +14,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "dev:mock": "node mock-api/server.mjs"
+    "dev:mock": "node mock-api/server.mjs",
+    "verify:e2e": "node scripts/verify-e2e.mjs"
   },
   "dependencies": {
     "next": "16.4.0",
@@ -17,8 +23,6 @@
     "react-dom": "19.3.0",
     "server-only": "0.0.1"
   },
-  "description": "Server-rendered reading list built with Next.js, backed by a Django Ninja API.",
-  "license": "MIT",
   "devDependencies": {
     "@types/node": "22.20.5",
     "@types/react": "19.3.0",
@@ -26,6 +30,7 @@
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.0",
     "typescript": "5.9.3",
+    "vite": "8.3.4",
     "vitest": "5.0.4"
   }
 }
