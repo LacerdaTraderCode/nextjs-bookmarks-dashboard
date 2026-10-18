@@ -148,13 +148,24 @@ PASS  an unreachable API does not render bookmarks
 40/40 checks passed
 ```
 
+## Continuous integration
+
+`.github/workflows/ci.yml` runs on every push and pull request to `main`, and can be started by hand from the Actions tab. It has three jobs that run in parallel on Node 22:
+
+| Job | Runs |
+|---|---|
+| Lint and type check | `npm run lint`, `npm run typecheck` |
+| Unit and contract tests | `npm test` |
+| Production build and end-to-end verification | `npm run build`, `npm run verify:e2e` |
+
 ## What was not verified
 
 - **The real API.** The app has never run against `django-ninja-mongo-api` with a live MongoDB. The mock in `mock-api/server.mjs` was written by reading that API's routers and schemas, so it can drift from the real service.
 - **A browser.** None was available. Hydration, the pending state of `useActionState` forms, how React resets a form after a client-side submit, visual rendering, dark mode, the responsive layout and keyboard focus order were not exercised. The HTTP-level checks cover the no-JavaScript path.
 - **The session check inside each Server Function, in isolation.** `proxy.ts` matches the same paths, so a request without a cookie is redirected before a Server Function runs. The forged-cookie scenario does exercise the API-rejection path; the in-function check itself is covered by reading the code, not by a request.
-- **The GitHub Actions workflow.** `.github/workflows/ci.yml` runs the same commands as above on Node 22. The commands were run locally, including from a clean copy without a lockfile; the workflow itself is only as verified as its run history on the Actions tab.
 - **`npm run dev` beyond a smoke test.** It was started and `/login` and the proxy redirect were checked; the full flow was verified on the production build.
+
+What has been observed on GitHub: the first CI run on `main` passed in all three jobs, and the job logs show the same results as the local runs above (59 tests, 40/40 end-to-end checks). The run history on the Actions tab is the source of truth for anything after that.
 
 ## Dependency pinning
 
